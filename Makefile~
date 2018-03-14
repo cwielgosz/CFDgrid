@@ -1,0 +1,3 @@
+all: a.out
+a.out: CFD2dGrid_1.cc
+	mpicxx -std=c+=11 -o a.out CFD2dGrid_1.cc

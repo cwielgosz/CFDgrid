@@ -123,9 +123,15 @@ ostream& operator << (ostream& s, const Grid2d& grid){
 int main() {
   Grid2d grid(10, 10);
   // cout << grid; 
-  grid.startPoint(4,4,5);
+  grid.startPoint(0,0,5);
+  grid.startPoint(9,9,2.5);
+  cout << grid << endl;
+  for(int i = 0; i < 5; i++) {
+    grid.diffuse(0.8, 0.2);
+  }
   cout << grid << endl;
   //grid.specPoint(0,0);
+  /*
   while(grid.checkDisp()){
     grid.diffuse(0.4, 0.2);
     cout << grid;}
