@@ -1,0 +1,48 @@
+#include <iomanip>
+#include <mpi.h>
+#include <cmath>
+#include <vector>
+using namespace std;
+
+class WorldManager{
+private:
+  int worldSize;
+  int worldRank;
+  char processorName[MPI_MAX_PROCESSOR_NAME];
+  int nameLen;
+public:
+  WorldManager(){
+    MPI_Init(nullptr, nullptr);
+    MPI_Comm_size(MPI_COMM_WORLD, &worldSize);
+    MPI_Comm_rank(MPI_COMM_WORLD, &worldRank);
+    MPI_Get_processor_name(processorName, &nameLen);
+  }
+
+
+int getSize(){
+    return worldSize;
+}
+
+int getRank(){
+  return worldRank;
+}
+
+string getPName(){
+    string s = "";
+    for(int i = 0; i < nameLen; i++)
+      s += processorName[i];
+    return s;
+}
+
+~ WorldManager(){
+    MPI_Finalize();
+}
+
+  void send(vector<double> data, int dest){
+    MPI_Send(& data, data.size(), MPI_DOUBLE, dest, 0, MPI_COMM_WORLD);
+  }
+
+  void receive(vector<double> data, int source){
+    MPI_Recv(& data, data.size(), MPI_DOUBLE, source, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  }
+};
